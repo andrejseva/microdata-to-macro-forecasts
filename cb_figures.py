@@ -1,6 +1,3 @@
-"""Regenerate the figures whose labels still showed strategy codes (A_TD, ...).
-Clean labels use the paper's own abbreviations: DA, BU, FEA, MinT.
-Reads CSVs in py_outputs/ (+ uploads/forecasts_A.csv); writes to figs_revised/."""
 import os, numpy as np, pandas as pd
 import matplotlib.pyplot as plt, matplotlib.dates as mdates
 from matplotlib.ticker import MaxNLocator, FuncFormatter
