@@ -1,26 +1,7 @@
-"""
-Child-benefit forecasting pipeline -- DATA LAYER.
-
-Builds, from the raw admin + transaction CSVs:
-  * point-in-time (leakage-free) category attribution of every payment
-  * a gap-free monthly aggregate series and per-category series
-  * a leakage-free anomaly label (threshold calibrated on the first window only)
-  * a leakage-free feature-enriched design (every non-deterministic predictor
-    lagged by >= H; exiting_recipients lagged by >= H+1)
-
-Nothing here uses information from after the forecast origin.
-
-Notes:
-  * build_design now adds deterministic indexation controls known at the origin
-    -- a January-2022 step dummy and a post-2022 ramp -- and an optional hook
-    for an externally supplied legislated base path.
-  * feature_audit() returns an auditable table of every predictor's definition,
-    source, reference period, availability at the origin, and applied lag.
-"""
 import numpy as np
 import pandas as pd
 
-# ---- configuration ---------------------------------------------------------
+# configuration 
 KEEP_CATS   = ["K1", "K2", "K3"]
 H           = 6
 INIT_WINDOW = 60
