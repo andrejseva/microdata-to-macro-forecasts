@@ -1,19 +1,3 @@
-"""
-Additional robustness experiments, isolated from the main pipeline.
-
-Implements, all leakage-free unless explicitly the 'leaky' demonstration:
-  * list of anomalous months + December->January timing context
-  * LEAKY Strategy C (contemporaneous, un-lagged microdata) to quantify the
-         leakage the leak-free design controls
-  * C4a: Structural Strategy E = forecast beneficiaries per category x the
-         per-recipient rate known at the origin, summed to the aggregate
-  * ML variants on the aggregate -- log target, differenced target, direct
-        multi-step, and a post-2022 subsample
-  * accuracy by horizon, fiscal-year cumulative error, and 80/95% prediction-
-        interval coverage for ETS/ARIMA
-
-Writes everything to outputs/r3/ .
-"""
 import os, sys, warnings
 warnings.filterwarnings("ignore")
 import numpy as np, pandas as pd
