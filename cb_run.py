@@ -1,33 +1,3 @@
-"""
-Child-benefit forecasting pipeline -- RUNNER.
-
-Runs four aggregation strategies (A direct-aggregate, B bottom-up,
-C feature-enriched, D MinT reconciliation) under anomaly treatments
-(T1 naive, T2 exclusion, T3 calendar-adjustment, T4 regime-aware), all
-leakage-free, then builds the headline tables and the statistical-comparison
-package.
-
-NOTE on labelling: Strategy A forecasts the aggregate DIRECTLY
-(it is not a proportions-based top-down split); for any LINEAR method (e.g.
-seasonal naive) the bottom-up sum equals the direct aggregate by construction,
-so identical A/B rows are an algebraic identity, not an empirical finding. The
-internal key "A_TD" is kept for continuity with earlier outputs; the display
-label is "A direct-aggregate".
-
-Added for the revision:
-  * SDR (seasonal-dummy + trend + step-2022 OLS) and forecast combinations
-    (ETS+Theta, ETS+ARIMA) as transparent benchmarks.
-  * a COMMON-evaluation-sample table: every strategy scored on the 26 common
-    origins and the identical non-anomalous target months.
-  * TJAN (deterministic January rule) alongside T4.
-  * DM with HAC bandwidth + effective n + non-overlapping robustness + Holm;
-    MCS elimination p-values; TOST equivalence for ETS vs MinT.
-  * regime confusion matrix by year; MinT error-correlation + shrinkage; feature
-    audit.
-
-Usage:
-    python cb_run.py <admin_csv> <transactions_csv> [out_dir]
-"""
 import sys, os, warnings
 warnings.filterwarnings("ignore")
 import numpy as np, pandas as pd
