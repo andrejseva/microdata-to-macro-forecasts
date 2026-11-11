@@ -1,18 +1,5 @@
 """
-Entitlement-basis (accrual) reconstruction and forecasting  [revision appendix].
 
-Reviewer 3 (comment 2) observed that the near-zero months are a payment-timing
-artefact: each follows the December settlement spike. Using the entitlement
-periods in the administrative microdata (right_from / right_to, with early
-termination), we rebuild a monthly ACCRUAL series -- what is owed each month --
-instead of the CASH series -- what is disbursed each month -- and compare.
-
-Finding: the accrual series has no near-zero months and is far smoother
-(CV ~0.37 vs ~0.67), and is trivially forecastable (ETS WAPE ~2.3%). The cash
-series' anomalies are therefore a disbursement-timing phenomenon, not genuine
-expenditure anomalies. This shows the administrative microdata are valuable not
-as machine-learning features (Strategies C/E fail) but for DEFINING the
-measurement object.
 
 Writes to outputs/r3/.
 """
