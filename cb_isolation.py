@@ -1,12 +1,3 @@
-"""
-R2-P1 isolation experiment: does microdata add value BEYOND lags of y + calendar?
-Same learners, same expanding-window origins, same evaluation (T2 exclusion).
-Only the feature set changes:
-  (1) Y+CAL        : calendar/indexation + y_l6,y_l12          (NO microdata)
-  (2) Y+CAL+MICRO  : the above + all lagged microdata features  (= current Strategy C)
-  (3) MICRO+CAL    : calendar/indexation + microdata            (NO y lags)
-Plus a classical ARIMAX(y; exog=lagged micro) vs plain SARIMA, same origins.
-"""
 import os, sys, warnings, numpy as np, pandas as pd
 warnings.filterwarnings("ignore")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
