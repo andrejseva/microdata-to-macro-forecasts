@@ -1,35 +1,3 @@
-"""
-Child-benefit forecasting pipeline -- MODELS LAYER.
-
-Forecast generators all emit one long DataFrame with columns:
-    origin_date, model, h, ds, actual, forecast
-Scoring (metrics + anomaly treatments T1..T4, TJAN) is a SEPARATE, shared step so
-the training-based MASE scale and the anomaly handling are applied identically to
-every strategy.
-
-Leakage guarantees:
-  * statsforecast cross_validation uses only data up to each cutoff (expanding).
-  * the feature-enriched design feeds only lagged (>= H) predictors.
-  * the regime classifier (T4) uses only deterministic-calendar + lagged features.
-  * MASE/RMSSE scale uses the training aggregate up to the origin only.
-
-Notes:
-  * dm(): HAC truncation lag now explicit and configurable (default H-1); a
-    companion dm_detail() reports the effective sample size and settings, and a
-    non_overlap flag gives the non-overlapping-block robustness check.
-  * mcs(): can return per-model elimination p-values, not membership alone.
-  * tost(): two one-sided tests for the ETS vs MinT equivalence claim.
-  * holm(): Holm step-down adjustment for the pairwise DM family.
-  * sdr_cv(): transparent seasonal-dummy + trend + step-2022 OLS benchmark;
-    make_combinations(): simple forecast combinations.
-  * score(): common-evaluation-sample support (restrict_ds) so every treatment
-    can be scored on one shared sample, and a deterministic January-rule
-    treatment "TJAN" to test whether the regime classifier (T4) beats a plain
-    calendar rule.
-  * mint_diagnostics(): exposes the base-error correlation matrix and the
-    shrinkage intensity used by MinT.
-  * regime_confusion_by_year(): per-year confusion matrix for the T4 classifier.
-"""
 import os
 import numpy as np
 import pandas as pd
@@ -56,9 +24,8 @@ from cb_data import H, INIT_WINDOW, STEP_DATE
 N_JOBS = max(1, (os.cpu_count() or 2) - 1)
 
 
-# ===========================================================================
 # helpers
-# ===========================================================================
+
 def expanding_origins(n, init=INIT_WINDOW, h=H, step=1):
     """origin index o: train = months[0:o], test = months[o:o+h]."""
     return list(range(init, n - h + 1, step))
